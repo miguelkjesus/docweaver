@@ -1,6 +1,7 @@
 import {
   itAddsCommonContentNodes,
   itAddsParameterNodes,
+  itAddsReturnsNodes,
   itHasKey,
 } from '@spec/shared-examples/nodes'
 
@@ -13,6 +14,8 @@ describe(createMethod, () => {
   itAddsCommonContentNodes(factory)
 
   itAddsParameterNodes(factory)
+
+  itAddsReturnsNodes(factory)
 
   itHasKey((key) => createMethod(false, key, ''))
 })

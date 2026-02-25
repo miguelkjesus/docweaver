@@ -6,9 +6,8 @@ import {
   itAddsStaticPropertyNodes,
 } from '@spec/shared-examples/nodes'
 
-import { createClass } from '@/nodes'
+import { ClassBuilder, createClass } from '@/nodes'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare class TestClass {
   testProp: string
   testMethod(): void
@@ -18,7 +17,8 @@ declare class TestClass {
 }
 
 describe(createClass, () => {
-  const factory = createClass<typeof TestClass>
+  const factory = (init: string | ((builder: ClassBuilder<typeof TestClass>) => void)) =>
+    createClass<typeof TestClass>('TestClass', init)
 
   itAddsCommonContentNodes(factory)
 
@@ -29,4 +29,9 @@ describe(createClass, () => {
   itAddsPropertyNodes(factory)
 
   itAddsStaticPropertyNodes(factory)
+
+  it('sets the name property', () => {
+    const result = createClass('MyClass', 'description')
+    expect(result.name).toBe('MyClass')
+  })
 })

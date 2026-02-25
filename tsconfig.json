@@ -29,6 +29,6 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["src", "spec"],
+  "include": ["src", "spec", "docs", "*.config.ts"],
   "exclude": ["dist", "node_modules"]
 }

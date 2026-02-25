@@ -14,15 +14,22 @@
   "author": "",
   "type": "module",
   "main": "index.js",
+  "bin": {
+    "docspec": "./dist/cli/main.js"
+  },
   "scripts": {
     "prepare": "husky",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json --resolve-full-paths",
+    "build:watch": "tsc -p tsconfig.build.json && (concurrently \"tsc -w -p tsconfig.build.json\" \"tsc-alias -w -p tsconfig.build.json --resolve-full-paths\")",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "test": "jest"
+  },
+  "imports": {
+    "#package": "./package.json"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
@@ -34,7 +41,8 @@
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@types/jest": "^30.0.0",
-    "eslint": "^9.39.2",
+    "concurrently": "^9.2.1",
+    "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jest": "^29.13.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
@@ -43,7 +51,15 @@
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
     "ts-jest": "^29.4.6",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.54.0"
+  },
+  "dependencies": {
+    "commander": "^14.0.3",
+    "find-up": "^8.0.0",
+    "minimatch": "^10.2.2",
+    "tsx": "^4.21.0",
+    "zod": "^4.3.6"
   }
 }

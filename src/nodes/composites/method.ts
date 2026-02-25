@@ -3,12 +3,13 @@ import { Key, MethodKeysOf, StripInternals } from '@/internal/utils/types'
 import { CompositeNode } from './base'
 import { __CommonContentBuilder, CommonContentNode } from './common'
 import { AddParameter, createParameter, ParameterBuilder, ParameterNode } from './parameter'
+import { AddReturns, createReturns, ReturnsBuilder, ReturnsNode } from './return'
 
 export interface MethodNode extends CompositeNode {
   type: 'method'
   isStatic: boolean
   key: Key
-  content: (CommonContentNode | ParameterNode)[]
+  content: (CommonContentNode | ParameterNode | ReturnsNode)[]
 }
 
 export interface AddMethod<T extends object = object> {
@@ -24,7 +25,10 @@ export interface AddStaticMethod<T extends object = object> {
   }
 }
 
-class __MethodBuilder extends __CommonContentBuilder<MethodNode> implements AddParameter {
+class __MethodBuilder
+  extends __CommonContentBuilder<MethodNode>
+  implements AddParameter, AddReturns
+{
   constructor(isStatic: boolean, key: Key) {
     super({ type: 'method', isStatic, key, content: [] })
   }
@@ -34,6 +38,10 @@ class __MethodBuilder extends __CommonContentBuilder<MethodNode> implements AddP
   }
 
   readonly param = this.parameter
+
+  readonly returns = (returns: string | ((builder: ReturnsBuilder) => void)) => {
+    this.__node.content.push(createReturns(returns))
+  }
 }
 
 export type MethodBuilder = StripInternals<__MethodBuilder>

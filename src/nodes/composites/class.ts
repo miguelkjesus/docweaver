@@ -13,6 +13,7 @@ import {
 
 export interface ClassNode extends CompositeNode {
   type: 'class'
+  name: string
   content: (CommonContentNode | PropertyNode | MethodNode)[]
 }
 
@@ -24,8 +25,8 @@ class __ClassBuilder<Constructor extends AbstractClass>
     AddStaticMethod<Constructor>,
     AddStaticProperty<Constructor>
 {
-  constructor() {
-    super({ type: 'class', content: [] })
+  constructor(name: string) {
+    super({ type: 'class', name, content: [] })
   }
 
   private _method(
@@ -79,7 +80,8 @@ class __ClassBuilder<Constructor extends AbstractClass>
 export type ClassBuilder<T extends AbstractClass> = StripInternals<__ClassBuilder<T>>
 
 export function createClass<T extends AbstractClass>(
+  name: string,
   init: string | ((builder: ClassBuilder<T>) => void),
 ) {
-  return new __ClassBuilder<T>().__build(init)
+  return new __ClassBuilder<T>(name).__build(init)
 }

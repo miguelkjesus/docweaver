@@ -1,5 +1,5 @@
-import { markdown, md } from '@/markdown'
 import { AddMarkdown } from '@/nodes'
+import { markdown, md } from '@/utils/markdown'
 
 describe('markdown', () => {
   it('returns a function that calls builder.markdown with the provided string', () => {
