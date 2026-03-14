@@ -23,7 +23,7 @@
     "build:watch": "tsc -p tsconfig.build.json && (concurrently \"tsc -w -p tsconfig.build.json\" \"tsc-alias -w -p tsconfig.build.json --resolve-full-paths\")",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --fix",
-    "lint:check": "eslint .",
+    "lint:check": "eslint . --max-warnings 0",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "test": "vitest"
