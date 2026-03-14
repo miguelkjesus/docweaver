@@ -1,4 +1,4 @@
-import { createLiteral, LiteralNode } from '../literals'
+import { createLiteral, type LiteralNode } from './base.js'
 
 export interface TextNode extends LiteralNode {
   type: 'text'

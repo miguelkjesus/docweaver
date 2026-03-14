@@ -1,4 +1,5 @@
-import { AddReturns, CompositeNode } from '@/nodes'
+import type { CompositeNode } from '@/nodes/composites/base.js'
+import type { AddReturns } from '@/nodes/composites/return.js'
 
 export function itAddsReturnsNodes(
   factory: (init: (builder: AddReturns) => void) => CompositeNode,

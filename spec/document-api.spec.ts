@@ -1,6 +1,8 @@
-import { document } from '@/documenter'
+import { DocumentApi } from '@/nodes/utils/document-api.js'
 
 describe('document.class', () => {
+  const document = new DocumentApi()
+
   it('creates a class node', () => {
     const result = document.class('', '')
 
@@ -32,6 +34,8 @@ describe('document.class', () => {
 })
 
 describe('document.function', () => {
+  const document = new DocumentApi()
+
   it('creates function node with name from string', () => {
     const result = document.function('myFunction', 'description')
 

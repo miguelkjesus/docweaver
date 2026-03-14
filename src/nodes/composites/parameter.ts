@@ -1,7 +1,7 @@
-import { StripInternals } from '@/internal/utils/types'
+import type { StripInternals } from '@/internal/utils/types.js'
 
-import { CompositeNode } from './base'
-import { __CommonContentBuilder, CommonContentNode } from './common'
+import type { CompositeNode } from './base.js'
+import { __CommonContentBuilder, type CommonContentNode } from './common.js'
 
 export interface ParameterNode extends CompositeNode {
   type: 'parameter'

@@ -1,4 +1,4 @@
-import { LiteralNode } from '../literals'
+import type { LiteralNode } from '../literals/base.js'
 
 export interface CompositeNode {
   type: string

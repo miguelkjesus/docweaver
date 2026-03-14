@@ -1,4 +1,4 @@
-import { dedent, templateTag } from '@/internal/utils/string'
+import { dedent, templateTag } from '@/internal/utils/string.js'
 
 describe(dedent, () => {
   it('removes common leading indentation', () => {

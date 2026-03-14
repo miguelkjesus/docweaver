@@ -1,12 +1,11 @@
+import { itAddsCommonContentNodes } from '@spec/shared-examples/nodes/common.js'
+import { itAddsMethodNodes, itAddsStaticMethodNodes } from '@spec/shared-examples/nodes/method.js'
 import {
-  itAddsCommonContentNodes,
-  itAddsMethodNodes,
   itAddsPropertyNodes,
-  itAddsStaticMethodNodes,
   itAddsStaticPropertyNodes,
-} from '@spec/shared-examples/nodes'
+} from '@spec/shared-examples/nodes/property.js'
 
-import { ClassBuilder, createClass } from '@/nodes'
+import { type ClassBuilder, createClass } from '@/nodes/composites/class.js'
 
 declare class TestClass {
   testProp: string

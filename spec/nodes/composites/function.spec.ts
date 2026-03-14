@@ -1,10 +1,8 @@
-import {
-  itAddsCommonContentNodes,
-  itAddsParameterNodes,
-  itAddsReturnsNodes,
-} from '@spec/shared-examples/nodes'
+import { itAddsCommonContentNodes } from '@spec/shared-examples/nodes/common.js'
+import { itAddsParameterNodes } from '@spec/shared-examples/nodes/parameter.js'
+import { itAddsReturnsNodes } from '@spec/shared-examples/nodes/returns.js'
 
-import { createFunction, FunctionBuilder } from '@/nodes'
+import { createFunction, type FunctionBuilder } from '@/nodes/composites/function.js'
 
 describe(createFunction, () => {
   const factory = (init: string | ((builder: FunctionBuilder) => void)) =>

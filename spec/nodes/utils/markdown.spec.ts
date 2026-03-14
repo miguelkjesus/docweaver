@@ -1,11 +1,13 @@
-import { AddMarkdown } from '@/nodes'
-import { markdown, md } from '@/utils/markdown'
+import { vi } from 'vitest'
+
+import type { AddMarkdown } from '@/nodes/literals/markdown.js'
+import { markdown, md } from '@/nodes/utils/markdown.js'
 
 describe('markdown', () => {
   it('returns a function that calls builder.markdown with the provided string', () => {
     const builder: AddMarkdown = {
-      markdown: jest.fn(),
-      md: jest.fn(),
+      markdown: vi.fn(),
+      md: vi.fn(),
     }
 
     const result = markdown('# Hello World')
@@ -16,8 +18,8 @@ describe('markdown', () => {
 
   it('works as a template literal', () => {
     const builder: AddMarkdown = {
-      markdown: jest.fn(),
-      md: jest.fn(),
+      markdown: vi.fn(),
+      md: vi.fn(),
     }
 
     const result = markdown`
@@ -32,8 +34,8 @@ describe('markdown', () => {
 
   it('interpolates values in template literals', () => {
     const builder: AddMarkdown = {
-      markdown: jest.fn(),
-      md: jest.fn(),
+      markdown: vi.fn(),
+      md: vi.fn(),
     }
 
     const name = 'World'
@@ -45,8 +47,8 @@ describe('markdown', () => {
 
   it('handles multiple interpolations', () => {
     const builder: AddMarkdown = {
-      markdown: jest.fn(),
-      md: jest.fn(),
+      markdown: vi.fn(),
+      md: vi.fn(),
     }
 
     const a = 'foo'
@@ -60,8 +62,8 @@ describe('markdown', () => {
 
   it('converts non-string interpolated values to strings', () => {
     const builder: AddMarkdown = {
-      markdown: jest.fn(),
-      md: jest.fn(),
+      markdown: vi.fn(),
+      md: vi.fn(),
     }
 
     const num = 42

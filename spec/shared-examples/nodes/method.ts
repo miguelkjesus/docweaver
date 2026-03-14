@@ -1,4 +1,5 @@
-import { AddMethod, AddStaticMethod, CompositeNode } from '@/nodes'
+import type { CompositeNode } from '@/nodes/composites/base.js'
+import type { AddMethod, AddStaticMethod } from '@/nodes/composites/method.js'
 
 interface ExampleObject {
   testMethod(): void

@@ -1,7 +1,7 @@
 import js from '@eslint/js'
+import vitest from '@vitest/eslint-plugin'
 import { defineConfig } from 'eslint/config'
 import prettier from 'eslint-config-prettier'
-import jest from 'eslint-plugin-jest'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import ts from 'typescript-eslint'
 
@@ -41,6 +41,9 @@ export default defineConfig([
             // Side effect imports
             ['^\\u0000'],
 
+            // NodeJS built-ins
+            ['^node:'],
+
             // External packages
             ['^@?\\w'],
 
@@ -57,13 +60,15 @@ export default defineConfig([
     },
   },
 
-  // Jest
+  // Vitest
   {
     files: ['**/*.spec.ts'],
-    ...jest.configs['flat/style'],
-    rules: {
-      'jest/max-expects': ['error', { max: 1 }],
-      'jest/no-unnecessary-assertion': 'error',
+    plugins: { vitest },
+    rules: vitest.configs.recommended.rules,
+    settings: {
+      vitest: {
+        typecheck: true,
+      },
     },
   },
 

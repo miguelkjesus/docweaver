@@ -1,4 +1,4 @@
-import { createExample } from '@/nodes'
+import { createExample } from '@/nodes/literals/example.js'
 
 describe(createExample, () => {
   it('returns an ExampleNode with type "example"', () => {

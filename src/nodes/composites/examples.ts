@@ -1,8 +1,8 @@
-import { StripInternals } from '@/internal/utils/types'
+import type { StripInternals } from '@/internal/utils/types.js'
 
-import { AddExample, createExample, ExampleNode } from '../literals'
+import { type AddExample, createExample, type ExampleNode } from '../literals/example.js'
 
-import { __CompositeBuilder, CompositeNode } from './base'
+import { __CompositeBuilder, type CompositeNode } from './base.js'
 
 export interface ExamplesNode extends CompositeNode {
   type: 'examples'

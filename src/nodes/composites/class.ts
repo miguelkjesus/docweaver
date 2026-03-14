@@ -1,15 +1,21 @@
-import { AbstractClass, Key, MethodKeysOf, StripInternals } from '@/internal/utils/types'
+import type { AbstractClass, Key, MethodKeysOf, StripInternals } from '@/internal/utils/types.js'
 
-import { CompositeNode } from './base'
-import { __CommonContentBuilder, CommonContentNode } from './common'
-import { AddMethod, AddStaticMethod, createMethod, MethodBuilder, MethodNode } from './method'
+import type { CompositeNode } from './base.js'
+import { __CommonContentBuilder, type CommonContentNode } from './common.js'
 import {
-  AddProperty,
-  AddStaticProperty,
+  type AddMethod,
+  type AddStaticMethod,
+  createMethod,
+  type MethodBuilder,
+  type MethodNode,
+} from './method.js'
+import {
+  type AddProperty,
+  type AddStaticProperty,
   createProperty,
-  PropertyBuilder,
-  PropertyNode,
-} from './property'
+  type PropertyBuilder,
+  type PropertyNode,
+} from './property.js'
 
 export interface ClassNode extends CompositeNode {
   type: 'class'

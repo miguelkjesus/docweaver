@@ -1,5 +1,6 @@
-import { templateTag } from '../internal/utils/string'
-import { AddMarkdown } from '../nodes'
+import { templateTag } from '@/internal/utils/string.js'
+
+import type { AddMarkdown } from '../literals/markdown.js'
 
 export const markdown = templateTag((markdown: string) => {
   return (builder: AddMarkdown) => {

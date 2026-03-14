@@ -1,4 +1,4 @@
-import { createText } from '@/nodes'
+import { createText } from '@/nodes/literals/text.js'
 
 describe(createText, () => {
   it('returns a TextNode with type "text"', () => {

@@ -1,4 +1,5 @@
-import { AddParameter, CompositeNode } from '@/nodes'
+import type { CompositeNode } from '@/nodes/composites/base.js'
+import type { AddParameter } from '@/nodes/composites/parameter.js'
 
 export function itAddsParameterNodes(
   factory: (init: (builder: AddParameter) => void) => CompositeNode,

@@ -1,4 +1,5 @@
-import { AddText, CompositeNode } from '@/nodes'
+import type { CompositeNode } from '@/nodes/composites/base.js'
+import type { AddText } from '@/nodes/literals/text.js'
 
 export function itAddsTextNodes(
   createNode: (init: string | ((builder: AddText) => void)) => CompositeNode,

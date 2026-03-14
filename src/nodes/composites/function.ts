@@ -1,9 +1,14 @@
-import { StripInternals } from '@/internal/utils/types'
+import type { StripInternals } from '@/internal/utils/types.js'
 
-import { CompositeNode } from './base'
-import { __CommonContentBuilder, CommonContentNode } from './common'
-import { AddParameter, createParameter, ParameterBuilder, ParameterNode } from './parameter'
-import { AddReturns, createReturns, ReturnsBuilder, ReturnsNode } from './return'
+import type { CompositeNode } from './base.js'
+import { __CommonContentBuilder, type CommonContentNode } from './common.js'
+import {
+  type AddParameter,
+  createParameter,
+  type ParameterBuilder,
+  type ParameterNode,
+} from './parameter.js'
+import { type AddReturns, createReturns, type ReturnsBuilder, type ReturnsNode } from './return.js'
 
 export interface FunctionNode extends CompositeNode {
   type: 'function'

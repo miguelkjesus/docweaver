@@ -1,18 +1,15 @@
-import {
-  AddExample,
-  AddMarkdown,
-  AddText,
-  createExample,
-  createMarkdown,
-  createText,
-  ExampleNode,
-  LiteralNode,
-  MarkdownNode,
-  TextNode,
-} from '../literals'
+import type { LiteralNode } from '../literals/base.js'
+import { type AddExample, createExample, type ExampleNode } from '../literals/example.js'
+import { type AddMarkdown, createMarkdown, type MarkdownNode } from '../literals/markdown.js'
+import { type AddText, createText, type TextNode } from '../literals/text.js'
 
-import { __CompositeBuilder, CompositeNode, NodeWithContent } from './base'
-import { AddExamples, createExamples, ExamplesBuilder, ExamplesNode } from './examples'
+import { __CompositeBuilder, type CompositeNode, type NodeWithContent } from './base.js'
+import {
+  type AddExamples,
+  createExamples,
+  type ExamplesBuilder,
+  type ExamplesNode,
+} from './examples.js'
 
 /** Nodes that most composites should support as content */
 export type CommonContentNode = TextNode | MarkdownNode | ExampleNode | ExamplesNode

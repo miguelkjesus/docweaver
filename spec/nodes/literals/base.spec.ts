@@ -1,4 +1,4 @@
-import { createLiteral, LiteralNode } from '@/nodes'
+import { createLiteral, type LiteralNode } from '@/nodes/literals/base.js'
 
 describe(createLiteral, () => {
   it('returns the same node reference', () => {
