@@ -52,11 +52,11 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
+    "memfs": "^4.56.11",
     "prettier": "^3.8.1",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.54.0",
-    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.0"
   },
   "dependencies": {

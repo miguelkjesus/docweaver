@@ -1,50 +1,54 @@
-import type { Mock } from 'vitest'
-import { vi } from 'vitest'
-
-vi.mock('@/internal/utils/find/find-up.js', () => ({
-  findUp: vi.fn(),
-}))
+import { createMockFileSystem } from '@spec/mocks/fs.js'
 
 import { findConfigFile } from '@/config-file/find-config-file.js'
-import { findUp } from '@/internal/utils/find/find-up.js'
-
-const mockFindUp = findUp as Mock
-
-beforeEach(() => {
-  vi.clearAllMocks()
-})
 
 describe(findConfigFile, () => {
-  it('calls findUp with the docspec config glob pattern', async () => {
-    mockFindUp.mockResolvedValue(undefined)
+  it('finds docspec.config.json in the given directory', async () => {
+    createMockFileSystem({
+      '/project/docspec.config.json': '{}',
+    })
 
-    await findConfigFile()
-
-    expect(mockFindUp).toHaveBeenCalledWith(
-      ['docspec.config.{ts,mts,cts,js,mjs,cjs,json,yaml,yml}'],
-      undefined,
-    )
+    expect(await findConfigFile('/project')).toBe('/project/docspec.config.json')
   })
 
-  it('passes undefined for from when no cwd is given', async () => {
-    mockFindUp.mockResolvedValue(undefined)
+  it('finds docspec.config.ts', async () => {
+    createMockFileSystem({
+      '/project/docspec.config.ts': '',
+    })
 
-    await findConfigFile()
-
-    expect(mockFindUp).toHaveBeenCalledWith(expect.anything(), undefined)
+    expect(await findConfigFile('/project')).toBe('/project/docspec.config.ts')
   })
 
-  it('passes [cwd] for from when cwd is given', async () => {
-    mockFindUp.mockResolvedValue(undefined)
+  it('finds docspec.config.yaml', async () => {
+    createMockFileSystem({
+      '/project/docspec.config.yaml': '',
+    })
 
-    await findConfigFile('/some/dir')
-
-    expect(mockFindUp).toHaveBeenCalledWith(expect.anything(), ['/some/dir'])
+    expect(await findConfigFile('/project')).toBe('/project/docspec.config.yaml')
   })
 
-  it('returns the result from findUp', async () => {
-    mockFindUp.mockResolvedValue('/some/dir/docspec.config.ts')
+  it('returns undefined when no config exists', async () => {
+    createMockFileSystem({
+      '/project/package.json': '',
+    })
 
-    expect(await findConfigFile()).toBe('/some/dir/docspec.config.ts')
+    expect(await findConfigFile('/project')).toBeUndefined()
+  })
+
+  it('walks up to find config in parent directories', async () => {
+    createMockFileSystem({
+      '/project/docspec.config.json': '{}',
+      '/project/src/index.ts': '',
+    })
+
+    expect(await findConfigFile('/project/src')).toBe('/project/docspec.config.json')
+  })
+
+  it('defaults to process.cwd() when no cwd is given', async () => {
+    createMockFileSystem({
+      [`${process.cwd()}/docspec.config.json`]: '{}',
+    })
+
+    expect(await findConfigFile()).toBe(`${process.cwd()}/docspec.config.json`)
   })
 })

@@ -1,94 +1,90 @@
-import type { Mock } from 'vitest'
-import { vi } from 'vitest'
-
-vi.mock('node:fs', () => ({
-  globSync: vi.fn(),
-  readdirSync: vi.fn(),
-}))
-
-import { globSync, readdirSync } from 'node:fs'
-
+import { createMockFileSystem } from '@spec/mocks/fs.js'
 import ignore from 'ignore'
 
 import { find, findFromRules } from '@/internal/utils/find/rules.js'
 
-const mockGlobSync = globSync as Mock
-const mockReaddirSync = readdirSync as Mock
-
-function mockFile(name: string) {
-  return { name, isDirectory: () => false }
-}
-
-function mockDir(name: string) {
-  return { name, isDirectory: () => true }
-}
-
-beforeEach(() => {
-  vi.clearAllMocks()
-})
-
 describe(find, () => {
-  it('returns an empty array when no from directories are resolved', () => {
-    mockGlobSync.mockReturnValue([])
+  it('returns an empty array when no files match', async () => {
+    createMockFileSystem({
+      '/project/src/index.js': '',
+    })
 
-    expect(find(['src/*.ts'])).toEqual([])
+    expect(await find(['*.ts'], ['/project/src'])).toEqual([])
   })
 
-  it('returns files matching the given patterns', () => {
-    mockGlobSync.mockReturnValue(['src'])
-    mockReaddirSync.mockReturnValue([mockFile('index.ts'), mockFile('README.md')])
+  it('returns files matching the given patterns', async () => {
+    createMockFileSystem({
+      '/project/src/index.ts': '',
+      '/project/src/README.md': '',
+    })
 
-    expect(find(['src/*.ts'])).toEqual(['src/index.ts'])
+    expect(await find(['*.ts'], ['/project/src'])).toEqual(['/project/src/index.ts'])
   })
 
-  it('excludes files not matching the patterns', () => {
-    mockGlobSync.mockReturnValue(['src'])
-    mockReaddirSync.mockReturnValue([mockFile('index.ts'), mockFile('README.md')])
+  it('excludes files not matching the patterns', async () => {
+    createMockFileSystem({
+      '/project/src/index.ts': '',
+      '/project/src/README.md': '',
+    })
 
-    expect(find(['src/*.ts'])).not.toContain('src/README.md')
+    expect(await find(['*.ts'], ['/project/src'])).not.toContain('/project/src/README.md')
+  })
+
+  it('defaults from to process.cwd()', async () => {
+    createMockFileSystem({
+      [`${process.cwd()}/index.ts`]: '',
+    })
+
+    expect(await find(['*.ts'])).toContain(`${process.cwd()}/index.ts`)
   })
 })
 
 describe(findFromRules, () => {
-  it('returns an empty array when no from directories are resolved', () => {
-    mockGlobSync.mockReturnValue([])
+  it('returns an empty array when directory is empty', async () => {
+    createMockFileSystem({
+      '/project/src/.gitkeep': '',
+    })
+    const rules = ignore().add(['*.ts'])
+
+    expect(await findFromRules(rules, ['/project/src'])).toEqual([])
+  })
+
+  it('includes files matched by the rules', async () => {
+    createMockFileSystem({
+      '/project/src/index.ts': '',
+      '/project/src/README.md': '',
+    })
+    const rules = ignore().add(['*.ts'])
+
+    expect(await findFromRules(rules, ['/project/src'])).toEqual(['/project/src/index.ts'])
+  })
+
+  it('excludes files not matched by the rules', async () => {
+    createMockFileSystem({
+      '/project/src/index.ts': '',
+      '/project/src/README.md': '',
+    })
+    const rules = ignore().add(['*.ts'])
+
+    expect(await findFromRules(rules, ['/project/src'])).not.toContain('/project/src/README.md')
+  })
+
+  it('includes files from nested directories', async () => {
+    createMockFileSystem({
+      '/project/src/index.ts': '',
+      '/project/src/utils/helper.ts': '',
+    })
     const rules = ignore().add(['**/*.ts'])
 
-    expect(findFromRules(rules)).toEqual([])
+    expect(await findFromRules(rules, ['/project/src'])).toContain('/project/src/utils/helper.ts')
   })
 
-  it('includes files matched by the rules', () => {
-    mockGlobSync.mockReturnValue(['src'])
-    mockReaddirSync.mockReturnValue([mockFile('index.ts'), mockFile('README.md')])
-    const rules = ignore().add(['src/*.ts'])
+  it('defaults from to process.cwd()', async () => {
+    createMockFileSystem({
+      [`${process.cwd()}/index.ts`]: '',
+    })
+    const rules = ignore().add(['*.ts'])
 
-    expect(findFromRules(rules)).toEqual(['src/index.ts'])
-  })
-
-  it('excludes files not matched by the rules', () => {
-    mockGlobSync.mockReturnValue(['src'])
-    mockReaddirSync.mockReturnValue([mockFile('index.ts'), mockFile('README.md')])
-    const rules = ignore().add(['src/*.ts'])
-
-    expect(findFromRules(rules)).not.toContain('src/README.md')
-  })
-
-  it('includes files from nested directories', () => {
-    mockGlobSync.mockReturnValue(['src'])
-    mockReaddirSync
-      .mockReturnValueOnce([mockDir('utils'), mockFile('index.ts')])
-      .mockReturnValueOnce([mockFile('helper.ts')])
-    const rules = ignore().add(['src/**/*.ts'])
-
-    expect(findFromRules(rules)).toContain('src/utils/helper.ts')
-  })
-
-  it('defaults from to [process.cwd()]', () => {
-    mockGlobSync.mockReturnValue([])
-    const rules = ignore().add(['**/*.ts'])
-
-    findFromRules(rules)
-
-    expect(mockGlobSync).toHaveBeenCalledWith([process.cwd()])
+    expect(await findFromRules(rules)).toContain(`${process.cwd()}/index.ts`)
   })
 })

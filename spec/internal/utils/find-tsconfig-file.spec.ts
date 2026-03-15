@@ -1,47 +1,38 @@
-import type { Mock } from 'vitest'
-import { vi } from 'vitest'
+import { createMockFileSystem } from '@spec/mocks/fs.js'
 
-vi.mock('@/internal/utils/find/find-up.js', () => ({
-  findUp: vi.fn(),
-}))
-
-import { findUp } from '@/internal/utils/find/find-up.js'
 import { findTSConfigFile } from '@/internal/utils/find-tsconfig-file.js'
 
-const mockFindUp = findUp as Mock
-
-beforeEach(() => {
-  vi.clearAllMocks()
-})
-
 describe(findTSConfigFile, () => {
-  it('calls findUp with tsconfig.json', async () => {
-    mockFindUp.mockResolvedValue(undefined)
+  it('finds tsconfig.json in the given directory', async () => {
+    createMockFileSystem({
+      '/project/tsconfig.json': '{}',
+    })
 
-    await findTSConfigFile()
-
-    expect(mockFindUp).toHaveBeenCalledWith(['tsconfig.json'], undefined)
+    expect(await findTSConfigFile('/project')).toBe('/project/tsconfig.json')
   })
 
-  it('passes undefined for from when no cwd is given', async () => {
-    mockFindUp.mockResolvedValue(undefined)
+  it('returns undefined when no tsconfig exists', async () => {
+    createMockFileSystem({
+      '/project/package.json': '',
+    })
 
-    await findTSConfigFile()
-
-    expect(mockFindUp).toHaveBeenCalledWith(expect.anything(), undefined)
+    expect(await findTSConfigFile('/project')).toBeUndefined()
   })
 
-  it('passes [cwd] for from when cwd is given', async () => {
-    mockFindUp.mockResolvedValue(undefined)
+  it('walks up to find tsconfig in parent directories', async () => {
+    createMockFileSystem({
+      '/project/tsconfig.json': '{}',
+      '/project/src/index.ts': '',
+    })
 
-    await findTSConfigFile('/some/project')
-
-    expect(mockFindUp).toHaveBeenCalledWith(expect.anything(), ['/some/project'])
+    expect(await findTSConfigFile('/project/src')).toBe('/project/tsconfig.json')
   })
 
-  it('returns the result from findUp', async () => {
-    mockFindUp.mockResolvedValue('/some/project/tsconfig.json')
+  it('defaults to process.cwd() when no cwd is given', async () => {
+    createMockFileSystem({
+      [`${process.cwd()}/tsconfig.json`]: '{}',
+    })
 
-    expect(await findTSConfigFile()).toBe('/some/project/tsconfig.json')
+    expect(await findTSConfigFile()).toBe(`${process.cwd()}/tsconfig.json`)
   })
 })
