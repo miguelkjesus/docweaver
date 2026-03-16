@@ -3,28 +3,28 @@ import { createMockFileSystem } from '@spec/mocks/fs.js'
 import { findConfigFile } from '@/config-file/find-config-file.js'
 
 describe(findConfigFile, () => {
-  it('finds docspec.config.json in the given directory', async () => {
+  it('finds docweaver.config.json in the given directory', async () => {
     createMockFileSystem({
-      '/project/docspec.config.json': '{}',
+      '/project/docweaver.config.json': '{}',
     })
 
-    expect(await findConfigFile('/project')).toBe('/project/docspec.config.json')
+    expect(await findConfigFile('/project')).toBe('/project/docweaver.config.json')
   })
 
-  it('finds docspec.config.ts', async () => {
+  it('finds docweaver.config.ts', async () => {
     createMockFileSystem({
-      '/project/docspec.config.ts': '',
+      '/project/docweaver.config.ts': '',
     })
 
-    expect(await findConfigFile('/project')).toBe('/project/docspec.config.ts')
+    expect(await findConfigFile('/project')).toBe('/project/docweaver.config.ts')
   })
 
-  it('finds docspec.config.yaml', async () => {
+  it('finds docweaver.config.yaml', async () => {
     createMockFileSystem({
-      '/project/docspec.config.yaml': '',
+      '/project/docweaver.config.yaml': '',
     })
 
-    expect(await findConfigFile('/project')).toBe('/project/docspec.config.yaml')
+    expect(await findConfigFile('/project')).toBe('/project/docweaver.config.yaml')
   })
 
   it('returns undefined when no config exists', async () => {
@@ -37,18 +37,18 @@ describe(findConfigFile, () => {
 
   it('walks up to find config in parent directories', async () => {
     createMockFileSystem({
-      '/project/docspec.config.json': '{}',
+      '/project/docweaver.config.json': '{}',
       '/project/src/index.ts': '',
     })
 
-    expect(await findConfigFile('/project/src')).toBe('/project/docspec.config.json')
+    expect(await findConfigFile('/project/src')).toBe('/project/docweaver.config.json')
   })
 
   it('defaults to process.cwd() when no cwd is given', async () => {
     createMockFileSystem({
-      [`${process.cwd()}/docspec.config.json`]: '{}',
+      [`${process.cwd()}/docweaver.config.json`]: '{}',
     })
 
-    expect(await findConfigFile()).toBe(`${process.cwd()}/docspec.config.json`)
+    expect(await findConfigFile()).toBe(`${process.cwd()}/docweaver.config.json`)
   })
 })

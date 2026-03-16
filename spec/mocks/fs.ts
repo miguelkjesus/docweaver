@@ -7,7 +7,7 @@ export { vol }
  * Create a mock filesystem with the given structure
  * @example
  * createMockFileSystem({
- *   '/project/docspec.config.json': '{"paths": ["src"]}',
+ *   '/project/docweaver.config.json': '{"paths": ["src"]}',
  *   '/project/src/index.ts': 'export const x = 1',
  * })
  */

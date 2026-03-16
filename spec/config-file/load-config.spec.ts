@@ -16,21 +16,24 @@ describe(loadConfig, () => {
     it('reads the file and parses the JSON content', async () => {
       const config = { paths: ['src'] }
       createMockFileSystem({
-        '/project/docspec.config.json': JSON.stringify(config),
+        '/project/docweaver.config.json': JSON.stringify(config),
       })
 
-      const result = await loadConfig({ filePath: '/project/docspec.config.json', loader: 'json' })
+      const result = await loadConfig({
+        filePath: '/project/docweaver.config.json',
+        loader: 'json',
+      })
 
       expect(result).toEqual(config)
     })
 
     it('respects a custom encoding option', async () => {
       createMockFileSystem({
-        '/project/docspec.config.json': '{}',
+        '/project/docweaver.config.json': '{}',
       })
 
       const result = await loadConfig({
-        filePath: '/project/docspec.config.json',
+        filePath: '/project/docweaver.config.json',
         loader: 'json',
         json: { encoding: 'latin1' },
       })
@@ -42,21 +45,24 @@ describe(loadConfig, () => {
   describe('yaml loader', () => {
     it('reads the file and parses YAML content', async () => {
       createMockFileSystem({
-        '/project/docspec.config.yaml': 'paths:\n  - src\n',
+        '/project/docweaver.config.yaml': 'paths:\n  - src\n',
       })
 
-      const result = await loadConfig({ filePath: '/project/docspec.config.yaml', loader: 'yaml' })
+      const result = await loadConfig({
+        filePath: '/project/docweaver.config.yaml',
+        loader: 'yaml',
+      })
 
       expect(result).toEqual({ paths: ['src'] })
     })
 
     it('respects a custom encoding option', async () => {
       createMockFileSystem({
-        '/project/docspec.config.yaml': 'tsconfig: custom.json',
+        '/project/docweaver.config.yaml': 'tsconfig: custom.json',
       })
 
       const result = await loadConfig({
-        filePath: '/project/docspec.config.yaml',
+        filePath: '/project/docweaver.config.yaml',
         loader: 'yaml',
         yaml: { encoding: 'latin1' },
       })
@@ -70,13 +76,16 @@ describe(loadConfig, () => {
       const config = { tsconfig: 'tsconfig.json' }
       mockTsImport.mockResolvedValue({ default: config })
       createMockFileSystem({
-        '/project/docspec.config.ts': '',
+        '/project/docweaver.config.ts': '',
       })
 
-      const result = await loadConfig({ filePath: '/project/docspec.config.ts', loader: 'bundle' })
+      const result = await loadConfig({
+        filePath: '/project/docweaver.config.ts',
+        loader: 'bundle',
+      })
 
       expect(mockTsImport).toHaveBeenCalledWith(
-        '/project/docspec.config.ts',
+        '/project/docweaver.config.ts',
         expect.objectContaining({
           parentURL: expect.any(String) as unknown,
         }),
@@ -88,7 +97,7 @@ describe(loadConfig, () => {
       mockTsImport.mockResolvedValue({ default: {} })
 
       await loadConfig({
-        filePath: '/project/docspec.config.ts',
+        filePath: '/project/docweaver.config.ts',
         loader: 'bundle',
         bundle: { tsconfig: 'tsconfig.build.json' },
       })
@@ -105,11 +114,11 @@ describe(loadConfig, () => {
       mockTsImport.mockResolvedValue({ default: {} })
       createMockFileSystem({
         '/project/tsconfig.json': '{}',
-        '/project/docspec.config.ts': '',
+        '/project/docweaver.config.ts': '',
       })
 
       await loadConfig({
-        filePath: '/project/docspec.config.ts',
+        filePath: '/project/docweaver.config.ts',
         loader: 'bundle',
         cwd: '/project',
       })
@@ -126,14 +135,14 @@ describe(loadConfig, () => {
       mockTsImport.mockResolvedValue({ named: {} })
 
       await expect(
-        loadConfig({ filePath: '/project/docspec.config.ts', loader: 'bundle' }),
-      ).rejects.toThrow('Expected /project/docspec.config.ts to have a default export')
+        loadConfig({ filePath: '/project/docweaver.config.ts', loader: 'bundle' }),
+      ).rejects.toThrow('Expected /project/docweaver.config.ts to have a default export')
     })
   })
 
   it('throws a descriptive error when the loader is undefined', async () => {
     await expect(
-      loadConfig({ filePath: '/project/docspec.config.txt', loader: undefined }),
+      loadConfig({ filePath: '/project/docweaver.config.txt', loader: undefined }),
     ).rejects.toThrow('Could not decide how to load your config file')
   })
 })

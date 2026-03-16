@@ -10,8 +10,8 @@ import pkg from '#package' with { type: 'json' }
 export const program = new Command()
 
 program
-  .name('docspec')
-  .description('CLI for DocSpec')
+  .name('docweaver')
+  .description('CLI for docweaver')
   .version(pkg.version)
   .option('--paths <paths...>', 'specify the paths to search for documentation files in')
   .option('--files <paths...>', 'matchers for the documentation files')

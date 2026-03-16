@@ -1,21 +1,21 @@
 {
-  "name": "docspec",
+  "name": "docweaver",
   "version": "0.0.0",
   "description": "",
-  "homepage": "https://github.com/miguelkjesus/docspec#readme",
+  "homepage": "https://github.com/miguelkjesus/docweaver#readme",
   "bugs": {
-    "url": "https://github.com/miguelkjesus/docspec/issues"
+    "url": "https://github.com/miguelkjesus/docweaver/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/miguelkjesus/docspec.git"
+    "url": "git+https://github.com/miguelkjesus/docweaver.git"
   },
   "license": "ISC",
   "author": "",
   "type": "module",
   "main": "index.js",
   "bin": {
-    "docspec": "./dist/bin/docspec.js"
+    "docweaver": "./dist/bin/docweaver.js"
   },
   "scripts": {
     "prepare": "husky",

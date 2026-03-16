@@ -25,9 +25,9 @@ describe(parseCliOptions, () => {
   })
 
   it('maps config to config.filePath', () => {
-    const result = parseCliOptions({ config: 'docspec.config.ts' })
+    const result = parseCliOptions({ config: 'docweaver.config.ts' })
 
-    expect(result.config?.filePath).toBe('docspec.config.ts')
+    expect(result.config?.filePath).toBe('docweaver.config.ts')
   })
 
   it('maps config.loader to config.loader', () => {
