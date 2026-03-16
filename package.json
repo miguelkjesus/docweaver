@@ -13,17 +13,17 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "index.js",
   "bin": {
     "docweaver": "./dist/bin/docweaver.js"
   },
   "scripts": {
-    "prepare": "husky",
+    "prepack": "npm run lint:check && npm run build:clean",
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json --resolve-full-paths",
     "build:watch": "tsc -p tsconfig.build.json && (concurrently \"tsc -w -p tsconfig.build.json\" \"tsc-alias -w -p tsconfig.build.json --resolve-full-paths\")",
+    "build:clean": "rm -rf ./dist && npm run build",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --fix",
-    "lint:check": "eslint . --max-warnings 0",
+    "lint": "eslint . --fix && publint --strict",
+    "lint:check": "eslint . --max-warnings 0 && publint --strict",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "test": "vitest"
@@ -38,12 +38,14 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --write",
+      "vitest related --run"
     ],
     "*": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.5.0",
     "@vitest/eslint-plugin": "^1.6.12",
     "concurrently": "^9.2.1",
@@ -54,13 +56,13 @@
     "lint-staged": "^16.2.7",
     "memfs": "^4.56.11",
     "prettier": "^3.8.1",
+    "publint": "^0.3.18",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.54.0",
     "vitest": "^4.1.0"
   },
   "dependencies": {
-    "@types/js-yaml": "^4.0.9",
     "commander": "^14.0.3",
     "find-up": "^8.0.0",
     "ignore": "^7.0.5",

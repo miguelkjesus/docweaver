@@ -1,0 +1,34 @@
+src/
+spec/
+
+# TypeScript configs
+tsconfig.json
+tsconfig.build.json
+
+# Dev tooling configs
+eslint.config.js
+vitest.config.ts
+.prettierrc.json
+.prettierignore
+
+# Example/local config
+docspec.config.ts
+
+# Documentation/planning
+PLAN.md
+ROADMAP.md
+
+# IDE/editor
+.vscode/
+.claude/
+
+# Git/GitHub
+.github/
+.gitignore
+
+# Husky
+.husky/
+
+# Misc
+.nvmrc
+.DS_Store
