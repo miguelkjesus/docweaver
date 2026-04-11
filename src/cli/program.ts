@@ -5,7 +5,7 @@ import { mergeConfig } from '@/config-file/merge-config.js'
 
 import { parseCliOptions } from './options.js'
 
-import pkg from '#package' with { type: 'json' }
+import pkg from '#package.json' with { type: 'json' }
 
 export const program = new Command()
 
@@ -25,7 +25,6 @@ program
   .action(async (args: Record<string, unknown>) => {
     const options = parseCliOptions(args)
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const config = mergeConfig(await loadConfig(options.config), options)
-
-    console.log(config)
   })
