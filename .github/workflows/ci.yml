@@ -27,8 +27,8 @@ jobs:
       - name: format
         run: npm run format:check
 
-      - name: typecheck
-        run: npm run typecheck
+      - name: build
+        run: npm run build:check
 
   tests:
     runs-on: ubuntu-latest
