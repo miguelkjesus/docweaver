@@ -4,6 +4,7 @@ import { Readable } from 'node:stream'
 
 import { fs, vol } from 'memfs'
 import micromatch from 'micromatch'
+import ts from 'typescript'
 import { afterEach, beforeEach, vi } from 'vitest'
 
 function getAllFiles(dir: string): string[] {
@@ -60,6 +61,59 @@ vi.mock('node:fs/promises', () => ({ default: fs.promises, ...fs.promises }))
 
 export const mockTsImport = vi.fn()
 vi.mock('tsx/esm/api', () => ({ tsImport: mockTsImport }))
+
+// ─────────────────────────────────────────────────────────────
+// Mock: TypeScript sys (so ts.createProgram uses memfs)
+// ─────────────────────────────────────────────────────────────
+
+ts.sys.readFile = (filePath, encoding = 'utf-8') => {
+  try {
+    return fs.readFileSync(filePath, { encoding: encoding as BufferEncoding }) as string
+  } catch {
+    return undefined
+  }
+}
+
+ts.sys.fileExists = (filePath) => {
+  try {
+    return fs.statSync(filePath).isFile()
+  } catch {
+    return false
+  }
+}
+
+ts.sys.directoryExists = (dirPath) => {
+  try {
+    return fs.statSync(dirPath).isDirectory()
+  } catch {
+    return false
+  }
+}
+
+ts.sys.getDirectories = (dirPath) => {
+  try {
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true }) as Dirent[]
+    return entries.filter((e) => e.isDirectory()).map((e) => e.name)
+  } catch {
+    return []
+  }
+}
+
+ts.sys.readDirectory = (dirPath, extensions) => {
+  const allFiles = getAllFiles(dirPath)
+  if (extensions) {
+    return allFiles.filter((f) => extensions.some((ext) => f.endsWith(ext)))
+  }
+  return allFiles
+}
+
+ts.sys.realpath = (filePath) => {
+  try {
+    return fs.realpathSync(filePath) as string
+  } catch {
+    return filePath
+  }
+}
 
 // ─────────────────────────────────────────────────────────────
 // Test Lifecycle

@@ -1,7 +1,5 @@
 import ts from 'typescript'
 
-import type { getPublicFileApi } from './api.js'
-
 /**
  * Data about an exported symbol from a module.
  */
@@ -22,8 +20,6 @@ export type DeclaredGlobals = Readonly<{
 
 /**
  * Returns the global declarations found in a file.
- *
- * Use {@link getPublicFileApi} if you also need other information about the file, such as global declarations.
  *
  * @param file The source file to extract global declarations from.
  */

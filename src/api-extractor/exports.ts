@@ -1,7 +1,5 @@
 import ts from 'typescript'
 
-import type { getPublicFileApi } from './api.js'
-
 /**
  * Data about an exported symbol from a module.
  */
@@ -37,8 +35,6 @@ export type ModuleExport = Readonly<{
 
 /**
  * Returns all the data about all the exports file.
- *
- * Use {@link getPublicFileApi} if you also need other information about the file, such as global declarations.
  *
  * **Only supports ESM exports.**
  * @param checker The type checker associated with this module symbol
