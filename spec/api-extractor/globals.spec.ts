@@ -1,6 +1,5 @@
-import ts from 'typescript'
-
 import { createMockProgram } from '@spec/mocks/ts.js'
+import ts from 'typescript'
 
 import { getFileGlobals } from '@/api-extractor/globals.js'
 
