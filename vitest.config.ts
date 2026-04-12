@@ -9,7 +9,16 @@ export default defineConfig({
     server: {
       deps: {
         // Inline these packages so vi.mock can intercept their fs imports
-        inline: ['find-up', 'locate-path', 'p-locate', 'p-limit'],
+        inline: [
+          'find-up',
+          'locate-path',
+          'p-locate',
+          'p-limit',
+          'fast-glob',
+          '@nodelib/fs.walk',
+          '@nodelib/fs.scandir',
+          '@nodelib/fs.stat',
+        ],
       },
     },
   },

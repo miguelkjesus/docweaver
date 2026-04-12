@@ -1,4 +1,4 @@
-import { createAsyncSequence } from '@/internal/utils/async-sequence.js'
+import { createAsyncSequence, isAsyncSequence } from '@/internal/utils/async-sequence.js'
 
 describe(createAsyncSequence, () => {
   it('creates a callable async generator function', () => {
@@ -77,5 +77,28 @@ describe(createAsyncSequence, () => {
       // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
       expect(await sequence.last()).toBeUndefined()
     })
+  })
+})
+
+describe(isAsyncSequence, () => {
+  it('returns true for async sequence created with createAsyncSequence', () => {
+    const sequence = createAsyncSequence(async function* () {})
+    expect(isAsyncSequence(sequence)).toBe(true)
+  })
+
+  it('returns false for plain function', () => {
+    expect(isAsyncSequence(() => {})).toBe(false)
+  })
+
+  it('returns false for object with partial methods', () => {
+    const partial = Object.assign(() => {}, { first: () => {} })
+    expect(isAsyncSequence(partial)).toBe(false)
+  })
+
+  it('returns false for non-functions', () => {
+    expect(isAsyncSequence(null)).toBe(false)
+    expect(isAsyncSequence(undefined)).toBe(false)
+    expect(isAsyncSequence({})).toBe(false)
+    expect(isAsyncSequence({ first: () => {}, last: () => {}, all: () => {} })).toBe(false)
   })
 })

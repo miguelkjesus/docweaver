@@ -42,3 +42,12 @@ export function createAsyncSequence<T = unknown, Args extends unknown[] = unknow
 ): AsyncSequence<T, Args> {
   return Object.setPrototypeOf(yieldEach, AsyncSequencePrototype) as AsyncSequence<T, Args>
 }
+
+export function isAsyncSequence(value: unknown): value is AsyncSequence {
+  return (
+    typeof value === 'function' &&
+    typeof (value as AsyncSequence).first === 'function' &&
+    typeof (value as AsyncSequence).last === 'function' &&
+    typeof (value as AsyncSequence).all === 'function'
+  )
+}
