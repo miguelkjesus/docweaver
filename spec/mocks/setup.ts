@@ -28,7 +28,10 @@ function getAllFiles(dir: string): string[] {
 // Mock: fast-glob
 // ─────────────────────────────────────────────────────────────
 
-function fastGlob(patterns: string | string[], options: { cwd?: string; absolute?: boolean } = {}) {
+function fastGlob(
+  patterns: string | string[],
+  options: { cwd?: string; absolute?: boolean } = {},
+): string[] {
   const cwd = options.cwd ?? process.cwd()
   const patternArray = Array.isArray(patterns) ? patterns : [patterns]
   const allFiles = getAllFiles(cwd)

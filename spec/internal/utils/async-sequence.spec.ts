@@ -3,7 +3,7 @@ import { createAsyncSequence, isAsyncSequence } from '@/internal/utils/async-seq
 describe(createAsyncSequence, () => {
   it('creates a callable async generator function', () => {
     const sequence = createAsyncSequence(async function* () {
-      // No-op
+      // no-op
     })
 
     const generator = sequence()
@@ -61,7 +61,7 @@ describe(createAsyncSequence, () => {
 
   describe('with no items', () => {
     const sequence = createAsyncSequence(async function* () {
-      // No-op
+      // no-op
     })
 
     it('all() returns an empty array', async () => {
@@ -82,16 +82,21 @@ describe(createAsyncSequence, () => {
 
 describe(isAsyncSequence, () => {
   it('returns true for async sequence created with createAsyncSequence', () => {
-    const sequence = createAsyncSequence(async function* () {})
+    const sequence = createAsyncSequence(async function* () {
+      // no-op
+    })
     expect(isAsyncSequence(sequence)).toBe(true)
   })
 
   it('returns false for plain function', () => {
-    expect(isAsyncSequence(() => {})).toBe(false)
+    expect(isAsyncSequence(() => void 0)).toBe(false)
   })
 
   it('returns false for object with partial methods', () => {
-    const partial = Object.assign(() => {}, { first: () => {} })
+    const partial = Object.assign(() => void 0, {
+      first: () => void 0,
+    })
+
     expect(isAsyncSequence(partial)).toBe(false)
   })
 
@@ -99,6 +104,12 @@ describe(isAsyncSequence, () => {
     expect(isAsyncSequence(null)).toBe(false)
     expect(isAsyncSequence(undefined)).toBe(false)
     expect(isAsyncSequence({})).toBe(false)
-    expect(isAsyncSequence({ first: () => {}, last: () => {}, all: () => {} })).toBe(false)
+    expect(
+      isAsyncSequence({
+        first: () => void 0,
+        last: () => void 0,
+        all: () => void 0,
+      }),
+    ).toBe(false)
   })
 })

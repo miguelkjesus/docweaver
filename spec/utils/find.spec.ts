@@ -17,7 +17,9 @@ describe(findDown, () => {
 
     const results = await findDown.all('**/*.ts', { cwd: '/project' })
 
-    expect(results).toEqual(expect.arrayContaining(['/project/src/index.ts', '/project/src/utils.ts']))
+    expect(results).toEqual(
+      expect.arrayContaining(['/project/src/index.ts', '/project/src/utils.ts']),
+    )
     expect(results).toHaveLength(2)
   })
 
@@ -64,7 +66,9 @@ describe(findDown, () => {
 
     const results = await findDown.all('*.ts', { from: ['src', 'lib'], cwd: '/project' })
 
-    expect(results).toEqual(expect.arrayContaining(['/project/src/index.ts', '/project/lib/utils.ts']))
+    expect(results).toEqual(
+      expect.arrayContaining(['/project/src/index.ts', '/project/lib/utils.ts']),
+    )
     expect(results).toHaveLength(2)
   })
 
@@ -125,7 +129,9 @@ describe(findUp, () => {
 
     const results = await findUp.all(['config.json', 'config.yaml'], { cwd: '/project' })
 
-    expect(results).toEqual(expect.arrayContaining(['/project/config.json', '/project/config.yaml']))
+    expect(results).toEqual(
+      expect.arrayContaining(['/project/config.json', '/project/config.yaml']),
+    )
   })
 
   it('supports from option', async () => {
