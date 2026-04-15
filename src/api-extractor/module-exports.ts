@@ -37,12 +37,12 @@ export type ModuleExport = Readonly<{
  * Returns all the data about all the exports file.
  *
  * **Only supports ESM exports.**
- * @param checker The type checker associated with this module symbol
  * @param moduleSymbol Usually accessed via `checker.getSymbolAtLocation(sourceFile)`
+ * @param checker The type checker associated with this module symbol
  */
 export function getModuleExports(
-  checker: ts.TypeChecker,
   moduleSymbol: ts.Symbol | undefined,
+  checker: ts.TypeChecker,
 ): ModuleExport[] {
   if (!moduleSymbol) return []
 

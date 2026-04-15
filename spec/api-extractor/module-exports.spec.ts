@@ -10,7 +10,7 @@ describe(getModuleExports, () => {
 
     if (!sourceFile) throw new Error('Source file not found')
 
-    return getModuleExports(checker, checker.getSymbolAtLocation(sourceFile))
+    return getModuleExports(checker.getSymbolAtLocation(sourceFile), checker)
   }
 
   it('returns direct function export', () => {
