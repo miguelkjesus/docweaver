@@ -1,21 +1,21 @@
-import z from 'zod'
+import { type } from 'arktype'
 
-export interface Config {
-  paths?: string[]
-  files?: string[]
-  tsconfig?: string
-}
-
-export const configSchema = z.object({
-  paths: z.array(z.string()).optional(),
-  files: z.array(z.string()).optional(),
-  tsconfig: z.string().optional(),
+const Config = type({
+  'paths?': 'string[]',
+  'files?': 'string[]',
+  'tsconfig?': 'string',
 })
 
+export type Config = typeof Config.infer
+
 export function parseConfig(config: unknown): Config {
-  const { error, data } = configSchema.safeParse(config)
+  const data = Config(config)
 
-  if (error) throw new Error(z.prettifyError(error))
+  if (data instanceof type.errors) throw new Error(data.summary)
 
-  return data
+  return {
+    paths: data.paths,
+    files: data.files,
+    tsconfig: data.tsconfig,
+  }
 }

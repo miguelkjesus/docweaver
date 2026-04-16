@@ -1,21 +1,28 @@
-import z from 'zod'
+import { type } from 'arktype'
 
-import type { ConfigLoaderMode } from '@/config-file/config-loader-mode.js'
-import type { Config } from '@/config-file/parse-config.js'
+import { ConfigLoaderMode } from '@/config-file/config-loader-mode.js'
 
-export interface RawCliOptions {
+const BufferEncoding = type('string').narrow((v) => Buffer.isEncoding(v))
+type BufferEncoding = typeof BufferEncoding.infer
+
+const CliOptions = type({
+  'paths?': 'string[]',
+  'files?': 'string[]',
+  'tsconfig?': 'string',
+  'config?': 'string',
+  'config.loader?': ConfigLoaderMode,
+  'config.encoding?': BufferEncoding,
+  'config.json.encoding?': BufferEncoding,
+  'config.yaml.encoding?': BufferEncoding,
+  'config.bundle.tsconfig?': 'string',
+})
+
+export type CliOptions = typeof CliOptions.infer
+
+export interface ResolvedCliOptions {
   paths?: string[]
   files?: string[]
   tsconfig?: string
-  config?: string
-  'config.loader'?: ConfigLoaderMode
-  'config.encoding'?: BufferEncoding
-  'config.json.encoding'?: BufferEncoding
-  'config.yaml.encoding'?: BufferEncoding
-  'config.bundle.tsconfig'?: string
-}
-
-export interface CliOptions extends Config {
   config?: {
     filePath?: string
     loader?: ConfigLoaderMode
@@ -31,24 +38,10 @@ export interface CliOptions extends Config {
   }
 }
 
-const bufferEncoding = z.string().refine((v) => Buffer.isEncoding(v), 'Invalid buffer encoding.')
+export function parseCliOptions(options: Record<string, unknown>): ResolvedCliOptions {
+  const data = CliOptions(options)
 
-const rawCliOptionsSchema = z.object({
-  paths: z.array(z.string()).optional(),
-  files: z.array(z.string()).optional(),
-  tsconfig: z.string().optional(),
-  config: z.string().optional(),
-  'config.loader': z.enum(['bundle', 'native', 'json', 'yaml']).optional(),
-  'config.encoding': bufferEncoding.optional(),
-  'config.json.encoding': bufferEncoding.optional(),
-  'config.yaml.encoding': bufferEncoding.optional(),
-  'config.bundle.tsconfig': z.string().optional(),
-})
-
-export function parseCliOptions(options: Record<string, unknown>): CliOptions {
-  const { error, data } = rawCliOptionsSchema.safeParse(options)
-
-  if (error) throw new Error(z.prettifyError(error))
+  if (data instanceof type.errors) throw new Error(data.summary)
 
   return {
     paths: data.paths,

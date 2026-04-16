@@ -1,4 +1,7 @@
-export type ConfigLoaderMode = 'bundle' | 'native' | 'json' | 'yaml'
+import { type } from 'arktype'
+
+export const ConfigLoaderMode = type('"bundle" | "native" | "json" | "yaml"')
+export type ConfigLoaderMode = typeof ConfigLoaderMode.infer
 
 export function chooseConfigLoaderMode(fileExtension: string): ConfigLoaderMode | undefined {
   switch (fileExtension) {
