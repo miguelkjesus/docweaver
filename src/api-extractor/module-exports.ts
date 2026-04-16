@@ -40,12 +40,7 @@ export type ModuleExport = Readonly<{
  * @param moduleSymbol Usually accessed via `checker.getSymbolAtLocation(sourceFile)`
  * @param checker The type checker associated with this module symbol
  */
-export function getModuleExports(
-  moduleSymbol: ts.Symbol | undefined,
-  checker: ts.TypeChecker,
-): ModuleExport[] {
-  if (!moduleSymbol) return []
-
+export function getModuleExports(moduleSymbol: ts.Symbol, checker: ts.TypeChecker): ModuleExport[] {
   return checker.getExportsOfModule(moduleSymbol).map((symbol) => {
     const originalSymbol =
       symbol.flags & ts.SymbolFlags.Alias ? checker.getAliasedSymbol(symbol) : symbol

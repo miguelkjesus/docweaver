@@ -10,7 +10,11 @@ describe(getModuleExports, () => {
 
     if (!sourceFile) throw new Error('Source file not found')
 
-    return getModuleExports(checker.getSymbolAtLocation(sourceFile), checker)
+    const moduleSymbol = checker.getSymbolAtLocation(sourceFile)
+
+    if (!moduleSymbol) throw new Error('File is not a module.')
+
+    return getModuleExports(moduleSymbol, checker)
   }
 
   it('returns direct function export', () => {
@@ -142,12 +146,6 @@ describe(getModuleExports, () => {
   })
 
   describe('edge cases', () => {
-    it('returns empty array for module with no exports', () => {
-      const exports = getExports('const internal = 1')
-
-      expect(exports).toEqual([])
-    })
-
     it('handles enum export', () => {
       const [exp] = getExports('export enum Status { Active, Inactive }')
 
