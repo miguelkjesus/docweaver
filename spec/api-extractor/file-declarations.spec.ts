@@ -1,7 +1,7 @@
 import { createMockProgram } from '@spec/mocks/ts.js'
 import ts from 'typescript'
 
-import { getFileDeclarations } from '@/api-extractor/declarations.js'
+import { getFileDeclarations } from '@/api-extractor/file-declarations.js'
 
 describe(getFileDeclarations, () => {
   function getDeclarations(code: string) {

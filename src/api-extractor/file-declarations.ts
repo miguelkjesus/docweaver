@@ -1,9 +1,5 @@
 import ts from 'typescript'
 
-// ============================================================================
-// Types
-// ============================================================================
-
 /**
  * Maps declaration kinds to their corresponding TypeScript node types.
  */
@@ -32,10 +28,6 @@ export type Declaration<K extends DeclarationKind = DeclarationKind> = Readonly<
   symbol: ts.Symbol | undefined
   kind: K
 }>
-
-// ============================================================================
-// Helper Functions
-// ============================================================================
 
 /**
  * Checks if a statement is a `declare global { }` block.
@@ -71,8 +63,8 @@ function isNamespace(statement: ts.Statement): statement is ts.ModuleDeclaration
  */
 function hasAmbientModifier(node: ts.Node): boolean {
   if (!ts.canHaveModifiers(node)) return false
-  const modifiers = ts.getModifiers(node)
-  return modifiers?.some((m) => m.kind === ts.SyntaxKind.DeclareKeyword) ?? false
+
+  return ts.getModifiers(node)?.some((m) => m.kind === ts.SyntaxKind.DeclareKeyword) ?? false
 }
 
 /**
@@ -83,15 +75,13 @@ function getVariableSymbol(
   checker: ts.TypeChecker,
 ): ts.Symbol | undefined {
   const firstDecl = node.declarationList.declarations[0]
+
   if (firstDecl && ts.isIdentifier(firstDecl.name)) {
     return checker.getSymbolAtLocation(firstDecl.name)
   }
+
   return undefined
 }
-
-// ============================================================================
-// Main Function
-// ============================================================================
 
 /**
  * Extracts all ambient declarations from a TypeScript source file.
@@ -99,22 +89,11 @@ function getVariableSymbol(
  * @param file The source file to extract declarations from
  * @param checker The type checker for resolving symbols
  * @returns An array of declarations with node, symbol, and kind
- *
- * @example
- * const decls = getFileDeclarations(sourceFile, checker)
- *
- * // Filter by kind with type-safe narrowing
- * const functions = filterDeclarations(decls, 'function')
- * functions[0].node // ts.FunctionDeclaration
- *
- * // Or filter manually
- * const globals = decls.filter(d => d.kind === 'global')
  */
 export function getFileDeclarations(file: ts.SourceFile, checker: ts.TypeChecker): Declaration[] {
   const declarations: Declaration[] = []
 
   for (const statement of file.statements) {
-    // Check module-like declarations first (global, ambient module, namespace)
     if (isDeclareGlobal(statement)) {
       declarations.push({
         node: statement,
@@ -133,7 +112,10 @@ export function getFileDeclarations(file: ts.SourceFile, checker: ts.TypeChecker
       continue
     }
 
-    if (isNamespace(statement) && hasAmbientModifier(statement)) {
+    // Check other ambient declarations (must have declare modifier)
+    if (!hasAmbientModifier(statement)) continue
+
+    if (isNamespace(statement)) {
       declarations.push({
         node: statement,
         symbol: checker.getSymbolAtLocation(statement.name),
@@ -141,9 +123,6 @@ export function getFileDeclarations(file: ts.SourceFile, checker: ts.TypeChecker
       })
       continue
     }
-
-    // Check other ambient declarations (must have declare modifier)
-    if (!hasAmbientModifier(statement)) continue
 
     if (ts.isVariableStatement(statement)) {
       declarations.push({
