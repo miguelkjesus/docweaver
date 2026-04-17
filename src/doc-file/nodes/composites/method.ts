@@ -10,12 +10,13 @@ import {
 } from './parameter.js'
 import { type AddReturns, createReturns, type ReturnsBuilder, type ReturnsNode } from './return.js'
 
-export interface MethodNode extends CompositeNode {
-  type: 'method'
-  isStatic: boolean
-  key: Key
-  content: (CommonContentNode | ParameterNode | ReturnsNode)[]
-}
+export type MethodNode = CompositeNode &
+  Readonly<{
+    type: 'method'
+    isStatic: boolean
+    key: Key
+    content: (CommonContentNode | ParameterNode | ReturnsNode)[]
+  }>
 
 export interface AddMethod<T extends object = object> {
   readonly method: (

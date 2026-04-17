@@ -10,11 +10,12 @@ import {
 } from './parameter.js'
 import { type AddReturns, createReturns, type ReturnsBuilder, type ReturnsNode } from './return.js'
 
-export interface FunctionNode extends CompositeNode {
-  type: 'function'
-  name: string
-  content: (CommonContentNode | ParameterNode | ReturnsNode)[]
-}
+export type FunctionNode = CompositeNode &
+  Readonly<{
+    type: 'function'
+    name: string
+    content: (CommonContentNode | ParameterNode | ReturnsNode)[]
+  }>
 
 class __FunctionBuilder
   extends __CommonContentBuilder<FunctionNode>

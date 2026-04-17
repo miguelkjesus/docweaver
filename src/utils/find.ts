@@ -6,10 +6,10 @@ import micromatch from 'micromatch'
 
 import { createAsyncSequence } from '@/internal/utils/async-sequence.js'
 
-export interface FindOptions {
+export type FindOptions = Readonly<{
   from?: string | string[]
   cwd?: string
-}
+}>
 
 function toArray<T>(value: T | T[]): T[] {
   return Array.isArray(value) ? value : [value]

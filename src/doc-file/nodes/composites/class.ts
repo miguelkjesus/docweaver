@@ -17,11 +17,12 @@ import {
   type PropertyNode,
 } from './property.js'
 
-export interface ClassNode extends CompositeNode {
-  type: 'class'
-  name: string
-  content: (CommonContentNode | PropertyNode | MethodNode)[]
-}
+export type ClassNode = CompositeNode &
+  Readonly<{
+    type: 'class'
+    name: string
+    content: (CommonContentNode | PropertyNode | MethodNode)[]
+  }>
 
 class __ClassBuilder<Constructor extends AbstractClass>
   extends __CommonContentBuilder<ClassNode>

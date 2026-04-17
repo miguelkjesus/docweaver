@@ -17,21 +17,22 @@ export const CliOptions = Config.and({
 
 export type CliOptions = typeof CliOptions.infer
 
-export interface ResolvedCliOptions extends Config {
-  config?: {
-    filePath?: string
-    loader?: ConfigLoaderMode
-    json?: {
-      encoding?: BufferEncoding
+export type ResolvedCliOptions = Readonly<Config> &
+  Readonly<{
+    config?: {
+      filePath?: string
+      loader?: ConfigLoaderMode
+      json?: {
+        encoding?: BufferEncoding
+      }
+      yaml?: {
+        encoding?: BufferEncoding
+      }
+      bundle?: {
+        tsconfig?: string
+      }
     }
-    yaml?: {
-      encoding?: BufferEncoding
-    }
-    bundle?: {
-      tsconfig?: string
-    }
-  }
-}
+  }>
 
 export function parseCliOptions(options: Record<string, unknown>): ResolvedCliOptions {
   const data = CliOptions(options)

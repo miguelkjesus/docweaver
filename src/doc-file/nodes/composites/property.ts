@@ -3,12 +3,13 @@ import type { Key, StripInternals } from '@/internal/utils/types.js'
 import type { CompositeNode } from './base.js'
 import { __CommonContentBuilder, type CommonContentNode } from './common.js'
 
-export interface PropertyNode extends CompositeNode {
-  type: 'property'
-  isStatic: boolean
-  key: Key
-  content: CommonContentNode[]
-}
+export type PropertyNode = CompositeNode &
+  Readonly<{
+    type: 'property'
+    isStatic: boolean
+    key: Key
+    content: CommonContentNode[]
+  }>
 
 export interface AddProperty<T extends object = object> {
   readonly property: (key: keyof T, property: string | ((builder: PropertyBuilder) => void)) => void

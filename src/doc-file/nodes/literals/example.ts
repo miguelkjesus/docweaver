@@ -1,9 +1,10 @@
 import { createLiteral, type LiteralNode } from './base.js'
 
-export interface ExampleNode extends LiteralNode {
-  type: 'example'
-  language: string // TODO enum?
-}
+export type ExampleNode = LiteralNode &
+  Readonly<{
+    type: 'example'
+    language: string // TODO enum?
+  }>
 
 export interface AddExample {
   readonly example: (language: string, example: string) => void

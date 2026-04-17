@@ -4,10 +4,11 @@ import { type AddExample, createExample, type ExampleNode } from '../literals/ex
 
 import { __CompositeBuilder, type CompositeNode } from './base.js'
 
-export interface ExamplesNode extends CompositeNode {
-  type: 'examples'
-  content: ExampleNode[]
-}
+export type ExamplesNode = CompositeNode &
+  Readonly<{
+    type: 'examples'
+    content: ExampleNode[]
+  }>
 
 export interface AddExamples {
   readonly examples: (examples: (builder: ExamplesBuilder) => void) => void

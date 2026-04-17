@@ -32,12 +32,12 @@
   "imports": {
     "#package.json": "./package.json"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/exports/index.d.ts",
+  "main": "./dist/exports/index.js",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/exports/index.d.ts",
+      "default": "./dist/exports/index.js"
     },
     "./config": {
       "types": "./dist/exports/config.d.ts",

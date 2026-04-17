@@ -3,10 +3,11 @@ import type { StripInternals } from '@/internal/utils/types.js'
 import type { CompositeNode } from './base.js'
 import { __CommonContentBuilder, type CommonContentNode } from './common.js'
 
-export interface ReturnsNode extends CompositeNode {
-  type: 'returns'
-  content: CommonContentNode[]
-}
+export type ReturnsNode = CompositeNode &
+  Readonly<{
+    type: 'returns'
+    content: CommonContentNode[]
+  }>
 
 export interface AddReturns {
   readonly returns: (returns: string | ((builder: ReturnsBuilder) => void)) => void

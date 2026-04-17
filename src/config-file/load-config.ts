@@ -10,7 +10,7 @@ import { chooseConfigLoaderMode, type ConfigLoaderMode } from './config-loader-m
 import { findConfigFile } from './find-config-file.js'
 import { parseConfig, type ResolvedConfig } from './parse-config.js'
 
-export interface LoadConfigOptions {
+export type LoadConfigOptions = Readonly<{
   filePath?: string
   loader?: ConfigLoaderMode
   cwd?: string
@@ -23,7 +23,7 @@ export interface LoadConfigOptions {
   bundle?: {
     tsconfig?: string
   }
-}
+}>
 
 export async function loadConfig({
   filePath,

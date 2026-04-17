@@ -1,8 +1,9 @@
 import { createLiteral, type LiteralNode } from './base.js'
 
-export interface MarkdownNode extends LiteralNode {
-  type: 'markdown'
-}
+export type MarkdownNode = LiteralNode &
+  Readonly<{
+    type: 'markdown'
+  }>
 
 export interface AddMarkdown {
   readonly markdown: (markdown: string) => void

@@ -18,14 +18,14 @@ export const Config = type({
 
 export type Config = typeof Config.infer
 
-export interface ResolvedConfig {
+export type ResolvedConfig = Readonly<{
   package: string
   tsconfig?: string
-}
+}>
 
-export interface ParseConfigOptions {
+export type ParseConfigOptions = Readonly<{
   cwd?: string
-}
+}>
 
 export async function parseConfig(
   config: unknown,

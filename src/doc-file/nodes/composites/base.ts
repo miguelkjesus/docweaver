@@ -1,15 +1,14 @@
 import type { LiteralNode } from '../literals/base.js'
 
-export interface CompositeNode {
+export type CompositeNode = Readonly<{
   type: string
   content: (LiteralNode | CompositeNode)[]
-}
+}>
 
-export interface NodeWithContent<
-  Content extends LiteralNode | CompositeNode,
-> extends CompositeNode {
-  content: Content[]
-}
+export type NodeWithContent<Content extends LiteralNode | CompositeNode> = CompositeNode &
+  Readonly<{
+    content: Content[]
+  }>
 
 export abstract class __CompositeBuilder<Node extends CompositeNode> {
   __node: Node

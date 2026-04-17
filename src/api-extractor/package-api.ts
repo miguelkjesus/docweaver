@@ -2,10 +2,10 @@ import ts from 'typescript'
 
 import { type FileApi, getFileApi } from './file-api.js'
 
-export interface PackageApiOptions {
+export type PackageApiOptions = Readonly<{
   entrypoints: string[]
   compilerOptions: ts.CompilerOptions
-}
+}>
 
 export function getPackageApi({
   entrypoints,

@@ -3,11 +3,12 @@ import type { StripInternals } from '@/internal/utils/types.js'
 import type { CompositeNode } from './base.js'
 import { __CommonContentBuilder, type CommonContentNode } from './common.js'
 
-export interface ParameterNode extends CompositeNode {
-  type: 'parameter'
-  key: string
-  content: CommonContentNode[]
-}
+export type ParameterNode = CompositeNode &
+  Readonly<{
+    type: 'parameter'
+    key: string
+    content: CommonContentNode[]
+  }>
 
 export interface AddParameter {
   readonly parameter: (
