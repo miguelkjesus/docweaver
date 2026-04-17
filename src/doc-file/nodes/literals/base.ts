@@ -1,4 +1,4 @@
-import { dedent } from '@/internal/utils/string.js'
+import { dedent } from '@/utils/string.js'
 
 export type LiteralNode = Readonly<{
   type: string

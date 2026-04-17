@@ -1,4 +1,4 @@
-import { unflattenObject } from '@/internal/utils/unflatten.js'
+import { unflattenObject } from '@/utils/unflatten.js'
 
 describe(unflattenObject, () => {
   it('returns an empty object when given an empty input', () => {

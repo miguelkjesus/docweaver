@@ -1,4 +1,4 @@
-import type { Key, StripInternals } from '@/internal/utils/types.js'
+import type { Key, StripInternals } from '@/utils/types.js'
 
 import type { CompositeNode } from './base.js'
 import { __CommonContentBuilder, type CommonContentNode } from './common.js'

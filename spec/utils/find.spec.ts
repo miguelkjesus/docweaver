@@ -1,6 +1,6 @@
 import { createMockFileSystem } from '@spec/mocks/fs.js'
 
-import { isAsyncSequence } from '@/internal/utils/async-sequence.js'
+import { isAsyncSequence } from '@/utils/async-sequence.js'
 import { findDown, findUp } from '@/utils/find.js'
 
 describe(findDown, () => {

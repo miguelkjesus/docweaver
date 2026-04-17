@@ -1,4 +1,4 @@
-import type { StripInternals } from '@/internal/utils/types.js'
+import type { StripInternals } from '@/utils/types.js'
 
 import { type AddExample, createExample, type ExampleNode } from '../literals/example.js'
 

@@ -1,4 +1,4 @@
-import type { AbstractClass, Callback } from '@/internal/utils/types.js'
+import type { AbstractClass, Callback } from '@/utils/types.js'
 
 import { type ClassBuilder, createClass } from '../composites/class.js'
 import { createFunction, type FunctionBuilder } from '../composites/function.js'

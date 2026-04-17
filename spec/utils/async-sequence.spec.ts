@@ -1,4 +1,4 @@
-import { createAsyncSequence, isAsyncSequence } from '@/internal/utils/async-sequence.js'
+import { createAsyncSequence, isAsyncSequence } from '@/utils/async-sequence.js'
 
 describe(createAsyncSequence, () => {
   it('creates a callable async generator function', () => {

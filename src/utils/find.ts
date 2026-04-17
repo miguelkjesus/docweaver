@@ -4,7 +4,7 @@ import path from 'node:path'
 import fg from 'fast-glob'
 import micromatch from 'micromatch'
 
-import { createAsyncSequence } from '@/internal/utils/async-sequence.js'
+import { createAsyncSequence } from '@/utils/async-sequence.js'
 
 export type FindOptions = Readonly<{
   from?: string | string[]

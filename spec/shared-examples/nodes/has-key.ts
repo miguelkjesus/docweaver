@@ -1,5 +1,5 @@
 import type { CompositeNode } from '@/doc-file/nodes/composites/base.js'
-import type { Key } from '@/internal/utils/types.js'
+import type { Key } from '@/utils/types.js'
 
 interface NodeWithKey<K extends Key> extends CompositeNode {
   key: K

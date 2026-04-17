@@ -1,4 +1,4 @@
-import { templateTag } from '@/internal/utils/string.js'
+import { templateTag } from '@/utils/string.js'
 
 import type { AddMarkdown } from '../literals/markdown.js'
 
