@@ -1,5 +1,6 @@
-import { createMockProgram } from '@spec/mocks/ts.js'
 import ts from 'typescript'
+
+import { createMockProgram } from '@spec/mocks/ts.js'
 
 import { getFileDeclarations } from '@/api-extractor/file-declarations.js'
 

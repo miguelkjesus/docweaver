@@ -48,6 +48,7 @@ export default defineConfig([
             ['^@?\\w'],
 
             // Internal aliases
+            ['^@spec/'],
             ['^@/'],
 
             // Relative imports

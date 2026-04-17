@@ -1,5 +1,6 @@
-import { createMockFileSystem } from '@spec/mocks/fs.js'
 import ts from 'typescript'
+
+import { createMockFileSystem } from '@spec/mocks/fs.js'
 
 import { getPackageApi } from '@/api-extractor/package-api.js'
 
