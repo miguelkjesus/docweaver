@@ -104,12 +104,12 @@ export async function resolvePackageExports({
 
   // TODO warn if pkg.main but no pkg.types
 
-  if (packageContents.types) {
-    exports.push({ subpath: '.', typesPath: packageContents.types, entrypoints: [] })
-  }
-
+  // `exports` supersedes the legacy `types` field — modern resolvers
+  // ignore `types`/`main` when `exports` is defined.
   if (packageContents.exports) {
     exports.push(...walkExports(packageContents.exports))
+  } else if (packageContents.types) {
+    exports.push({ subpath: '', typesPath: packageContents.types, entrypoints: [] })
   }
 
   // Needs to be done after the export definitions are collated as export defs and entrypoints reference eachother
