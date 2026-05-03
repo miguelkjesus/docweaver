@@ -11,7 +11,7 @@ describe(resolvePackageExports, () => {
 
     expect(result).toHaveLength(1)
     expect(result[0]).toMatchObject({
-      subpath: '.',
+      subpath: '',
       typesPath: './dist/index.d.ts',
       entrypoints: [
         {
@@ -92,7 +92,7 @@ describe(resolvePackageExports, () => {
     })
   })
 
-  it('emits both a `types` entry and `exports` entries when both are present', async () => {
+  it('ignores the legacy `types` field when `exports` is defined', async () => {
     const result = await resolvePackageExports({
       packageContents: {
         name: 'pkg',
@@ -102,7 +102,24 @@ describe(resolvePackageExports, () => {
       packageDirectory: '/project',
     })
 
-    expect(result.map((d) => d.subpath)).toEqual(['.', 'core'])
+    expect(result.map((d) => d.subpath)).toEqual(['core'])
+  })
+
+  it('does not duplicate the root entry when `types` and `exports["."]` both declare it', async () => {
+    const result = await resolvePackageExports({
+      packageContents: {
+        name: 'pkg',
+        types: './dist/index.d.ts',
+        exports: {
+          '.': { types: './dist/index.d.ts' },
+          './core': { types: './dist/core.d.ts' },
+        },
+      },
+      packageDirectory: '/project',
+    })
+
+    expect(result).toHaveLength(2)
+    expect(result.map((d) => d.typesPath)).toEqual(['./dist/index.d.ts', './dist/core.d.ts'])
   })
 
   it('back-references the export definition on each entrypoint', async () => {

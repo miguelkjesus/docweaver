@@ -1,5 +1,9 @@
+import fs from 'node:fs/promises'
+import path from 'node:path'
+
 import { Command } from 'commander'
 
+import { PackageWithExports, resolvePackageExports } from '@/api-extractor/package-exports.js'
 import { loadAndResolveConfig } from '@/config-file/load-config.js'
 
 import { CliOptions, resolveCliOptions } from './options.js'
@@ -30,5 +34,16 @@ program
 
     const config = await loadAndResolveConfig(options)
 
-    console.log(config)
+    console.log({ config })
+
+    const packageContents = PackageWithExports.assert(
+      JSON.parse(await fs.readFile(config.package, 'utf8')),
+    )
+
+    const exports = await resolvePackageExports({
+      packageContents,
+      packageDirectory: path.dirname(config.package),
+    })
+
+    console.dir({ exports }, { depth: 4 })
   })
